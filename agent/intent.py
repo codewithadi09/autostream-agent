@@ -1,17 +1,37 @@
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
+
+# Initialize LLM once
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    temperature=0
+)
+
+SYSTEM_PROMPT = """
+You are an intent classification engine for a SaaS product called AutoStream.
+
+Your job is to classify the user's message into EXACTLY one of the following labels:
+
+- greeting
+- product_inquiry
+- high_intent
+
+Rules:
+- Return ONLY the label.
+- Do NOT add explanations.
+- Do NOT add punctuation.
+- Do NOT add extra text.
+
+Examples:
+"hi" → greeting
+"how much does it cost?" → product_inquiry
+"I want to try the pro plan" → high_intent
+"""
+
 def detect_intent(message: str) -> str:
-    message = message.lower()
+    response = llm.invoke([
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=message)
+    ])
 
-    # 1. Greeting
-    if any(word in message for word in ["hi", "hello", "hey"]):
-        return "greeting"
-
-    # 2. High intent (must come BEFORE pricing)
-    if any(word in message for word in ["sign up", "try", "subscribe", "ready", "start"]):
-        return "high_intent"
-
-    # 3. Product / pricing inquiry
-    if any(word in message for word in ["price", "cost", "plan", "pricing"]):
-        return "product_inquiry"
-
-    # Default fallback
-    return "product_inquiry"
+    return response.content.strip().lower()
