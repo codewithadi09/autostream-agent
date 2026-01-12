@@ -6,4 +6,8 @@ class AgentState(TypedDict):
     step: str
     intent: Optional[str]
     retrieved_context: Optional[str]
+    name: Optional[str]
+    email: Optional[str]
+    platform: Optional[str]
+
 
