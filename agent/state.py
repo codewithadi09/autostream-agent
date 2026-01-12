@@ -5,3 +5,5 @@ class AgentState(TypedDict):
     response: str
     step: str
     intent: Optional[str]
+    retrieved_context: Optional[str]
+

@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph
 from agent.intent import detect_intent
 from agent.state import AgentState
+from agent.rag import retrieve_pricing_info
 
 
 def intent_router_node(state: AgentState) -> AgentState:
@@ -14,11 +15,9 @@ def intent_router_node(state: AgentState) -> AgentState:
         state["step"] = "greeted"
 
     elif intent == "product_inquiry":
-        state["response"] = (
-            "We have two plans:\n"
-            "Basic: $29/month, 10 videos, 720p\n"
-            "Pro: $79/month, unlimited videos, 4K, AI captions"
-        )
+        pricing_info = retrieve_pricing_info()
+        state["retrieved_context"] = pricing_info
+        state["response"] = pricing_info
         state["step"] = "pricing_shared"
 
     elif intent == "high_intent":
