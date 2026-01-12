@@ -1,4 +1,4 @@
-How to Run the Project Locally
+1. How to Run the Project Locally :
 
 First make sure you have Python 3.9 or higher installed on your system.
 
@@ -8,7 +8,7 @@ Set your OpenAI API key as an environment variable on your system. This is requi
 
 Once everything is set up, you can run the project by executing the main Python file. The agent will start in the terminal and you can interact with it by typing messages. You can test greetings, pricing questions, and high intent messages to see the full lead capture flow.
 
-Architecture Explanation
+2. Architecture Explanation :
 
 I chose LangGraph because the assignment focuses on building an agent with clear control over conversation flow and state. LangGraph allows defining explicit nodes and transitions, which makes the agent predictable and easier to debug compared to free flowing chains. This was especially important for handling multi turn lead capture without triggering actions prematurely.
 
@@ -16,7 +16,7 @@ The project is structured around a central state object that is passed through t
 
 Intent detection is handled using GPT-4o-mini, while knowledge based responses use a local JSON file through a simple retrieval module. Tool execution for lead capture is strictly guarded by state checks, ensuring it only runs after all required information is collected. This design keeps the agent reliable, explainable, and aligned with real world production patterns.
 
-WhatsApp Deployment Explanation
+3. WhatsApp Deployment Explanation :
 
 To deploy this agent on WhatsApp, I would use the WhatsApp Business Cloud API along with a webhook based backend service. The backend would be built using a lightweight framework like FastAPI.
 
